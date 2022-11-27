@@ -1,32 +1,56 @@
-import React, { useState } from "react";
+import React from "react";
 
-const Counter = () => {
-  const [state, changeState] = useState(0);
-  const changeStatePlus = () => {
-    changeState(state + 1);
+const Counter = (props) => {
+  const renderCounter = () => {
+    return props.value === 0 ? "Empty" : <> {props.value} </>;
   };
-  const changeStateMinus = () => {
-    changeState(state - 1);
+
+  const getClass = () => {
+    let baseClass = "badge m-2 ";
+    if (props.value === 0) {
+      baseClass += "bg-warning";
+      return baseClass;
+    } else {
+      baseClass += "bg-primary";
+      return baseClass;
+    }
   };
+
   return (
-    <>
-      <h1>HI THERE</h1>
-      <h1> {state} </h1>
+    <div>
+      {props.name}
+      <span className={getClass()}>{renderCounter()}</span>
+
       <button
+        className="btn btn-primary btn-sm m-1"
         onClick={() => {
-          changeStateMinus();
-        }}
-      >
-        -
-      </button>
-      <button
-        onClick={() => {
-          changeStatePlus();
+          props.onIncrement(props.id);
         }}
       >
         +
       </button>
-    </>
+      <button
+        className={
+          props.value === 0
+            ? "btn btn-secondary btn-sm m-1"
+            : "btn btn-danger btn-sm m-1"
+        }
+        onClick={() => {
+          props.onDecrement(props.id);
+        }}
+      >
+        -
+      </button>
+
+      <button
+        className="btn btn-danger"
+        onClick={() => {
+          props.onDelete(props.id);
+        }}
+      >
+        Delete
+      </button>
+    </div>
   );
 };
 
